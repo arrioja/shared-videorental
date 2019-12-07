@@ -1,0 +1,4 @@
+Este archivo es para tener referencia acerca de la fecha más reciente de actualización del sistema, para evitar sobreescribir una copia nueva con una vieja.
+
+
+FECHA:   08/06/2001

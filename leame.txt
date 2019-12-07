@@ -1,0 +1,95 @@
+**********************************************************************
+****************** VIDEO RENTAL 2000 ® V.- 3.0.0.0 *******************
+**********************************************************************
+**** INFORMACIÓN EXTRA: 0416-796-13-06.  E-MAIL: arrioja@cantv.net ****
+**********************************************************************
+
+     En el siguiente archivo de texto se detalla información que no se
+incluye dentro del sistema; El sistema es distribuido en Varios medios
+sean diskettes o en CD, en cualquier caso, lo que se distribuye es una
+Demostración del Programa completamente  funcional, pero, con fecha de
+Vencimiento.     Para obtener un código de registro para su computador
+deberá  llamar  por  el teléfono 016-796-13-06, y será atendido por el
+Ing. Pedro Arrioja, deberá suministrar el ID del producto y se le dirá
+la Clave de Registro para que el vencimiento sea removido.
+
+     El Sistema en General consta de 5 Ejecutables, los cuales se des-
+criben a continuación:
+
+NOMBRE		LOCALIZACIÓN		           FUNCIÓN
+----------------------------------------------------------------------
+					Ejecutable  principal del pro-
+VR200.EXE	\SISTEMA		grama  de  video,  este  es el
+					grama en sí.
+----------------------------------------------------------------------
+					Este  módulo  permite realizar
+					respaldos  periódicos  de  los
+RESPALDO.EXE    \RESPALDO		datos del sistema.  OJO: "Sólo
+					se respaldan los datos, nó los
+					ejecutables".
+----------------------------------------------------------------------
+					Utilizando  este  módulo usted
+					podrá recuperar cualquier res-
+RECUPERA.EXE    \RESPALDO		paldo de datos que previamente
+					haya  realizado  a  través del
+					módulo RESPALDO.EXE
+----------------------------------------------------------------------
+					A través  de este programa Ud.
+					podrá  registrar  esta demo de
+					VR2000 ® y quitarle la protec-
+					ción de vencimiento al progra-
+					ma,  además,  desaparecerá  el
+					mensaje  que  aparece  cada 15
+REGISTRAR.EXE   \REGISTRO		minútos.  Para poder registrar
+					VR2000 ®, deberá llamar por el
+					teléfono 016-796-13-06, dar el
+					ID del producto que aparece en
+					la ventana de  REGISTRAR.EXE y
+					colocar  la clave  que indique
+					la persona que le atienda.
+----------------------------------------------------------------------
+					El "Fechador"  es  un programa 
+					que  fué  incluido  dentro del
+					paquete  pensando  en aquellas
+					personas  dueñas de tiendas de
+					alquiler  de  video que desean
+					que la fecha no sea manipulada
+					a  conveniencia,  a  través de 
+					este  programa,  se ofrece una
+FECHA.EXE	\FECHADOR		efectiva manera de que el sis-
+					tema  posea  la  fecha  que el 
+					dueño desea.     Se recomienda
+					ámpliamente,  una  vez  que el
+					sistema sea instalado, se haga
+					una copia  del  FECHADOR en un
+					Diskette  y  se  elimine de su
+					Disco Duro,  para  evitar  que 
+					personas  no autorizadas lo u-
+					tilicen a su conveniencia.
+----------------------------------------------------------------------
+					El módulo externo de reindexa-
+					ción  le  permite acomodar los
+EMERGENCIA.EXE	\EMERGENCIA		errores de pérdida  de indices
+					en las tablas que  ocurren du-
+					durante fallas eléctricas.
+----------------------------------------------------------------------
+
+     Es  importante  que el usuario del sistema se tome su tiempo para 
+explorar   las   posibilidades   que  se  le  le  ofrecen,  de  hecho, 
+existen varios aspectos no visibles que son de vital importancia, como
+lo  es  el hecho de contar con el soporte adecuado para la instalación
+en redes del sistema.
+
+     En  la  Ventana  de Alquilar/Devolver se encuentran varios menúes 
+disponibles  al  hacer  click  con el botón derecho der ratón sobre el
+nombre  del  usuario,  el  título de video, etc.     Cuando el usuario
+desee   seleccionar  varios  videos  para  ser  devueltos,  se  deberá 
+presionar la barra de espacio sobre el mismo.
+
+     Las ventanas de los listados también presentan menúes contextuales
+a las opciones que representan los mismos, pero todo es cuestión de que
+el usuario se tome el tiempo necesario para aprender el uso.
+
+
+
+

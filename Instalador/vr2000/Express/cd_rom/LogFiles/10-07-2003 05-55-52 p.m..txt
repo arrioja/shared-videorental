@@ -1,0 +1,107 @@
+=================Logging started at 10/07/2003 05:55:52 p.m. ==================
+Binary table successfully built
+CustomAction table successfully built
+Property table successfully built
+Feature table successfully built
+FeatureComponents table successfully built
+Extracting COM data from 1 feature(s)
+Successfully scanned features for COM info
+IniFile table successfully built
+Building Directory table
+Directory table successfully built
+Registry table successfully built
+New Registry Entries (22) dynamically acquired for feature Always Install
+Building Feature table
+Component table successfully built
+Directory table successfully built
+AdminExecuteSequence table successfully built
+AdminUISequence table successfully built
+AdvtExecuteSequence table successfully built
+InstallExecuteSequence table successfully built
+InstallUISequence table successfully built
+Merging BaseRTL: C:\Archivos de programa\Borland\Delphi6\MergeModules\BaseRTL.Msm
+Merging BaseVCL: C:\Archivos de programa\Borland\Delphi6\MergeModules\BaseVCL.Msm
+Merging TeeChart: C:\Archivos de programa\Borland\Delphi6\MergeModules\TeeChart.Msm
+Merging DatabaseRTL: C:\Archivos de programa\Borland\Delphi6\MergeModules\DatabaseRTL.Msm
+Merging DataSnap: C:\Archivos de programa\Borland\Delphi6\MergeModules\DataSnap.Msm
+Merging dbExpress: C:\Archivos de programa\Borland\Delphi6\MergeModules\dbExpress.Msm
+Merging BaseClientDataSet: C:\Archivos de programa\Borland\Delphi6\MergeModules\BaseClientDataSet.Msm
+Merging dbExpressClientDataSet: C:\Archivos de programa\Borland\Delphi6\MergeModules\dbExpressClientDataSet.Msm
+Merging BDERTL: C:\Archivos de programa\Borland\Delphi6\MergeModules\BDERTL.Msm
+Merging BDEClientDataSet: C:\Archivos de programa\Borland\Delphi6\MergeModules\BDEClientDataSet.Msm
+Merging Microsoft Feature Category Manager Library: C:\Archivos de programa\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\COMCAT.MSM
+Merging Microsoft OLE 2.40  for Windows NT(TM) and Windows 95(TM) Operating Systems: C:\Archivos de programa\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\OLEAUT32.MSM
+Merging Microsoft Winsock Control DLL: C:\Archivos de programa\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\MSWINSCK.MSM
+Merging BDE_ENT: C:\Archivos de programa\Borland\Delphi6\MergeModules\bde_ent.msm
+Shortcut table successfully built
+Class table successfully built
+AppId table successfully built
+New Class {7930C862-4D6A-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {8996B0A1-D7BE-101B-8650-00AA003A5593} dynamically acquired for feature Always Install
+New Class {A9CF1100-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1102-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1104-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1106-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1108-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF110A-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {AC583F40-4F20-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+ProgId table successfully built
+New ProgId SoftwareFX.ChartFX.20 dynamically acquired for feature Always Install
+TypeLib table successfully built
+New TypeLib {8996B0A4-D7BE-101B-8650-00AA003A5593} dynamically acquired for feature Always Install
+Extension table successfully built
+Verb table successfully built
+MIME table successfully built
+PublishComponent table successfully built
+Directory table successfully built
+LaunchCondition table successfully built
+ServiceInstall table successfully built
+ServiceControl table successfully built
+ODBCDriver table successfully built
+ODBCAttribute table successfully built
+ODBCDataSource table successfully built
+ODBCSourceAttribute table successfully built
+ODBCTranslator table successfully built
+TextStyle table successfully built
+ActionText table successfully built
+Error table successfully built
+UIText table successfully built
+Icon table successfully built
+InstallShield table successfully built
+Dialog AdminChangeFolder for language Inglés (Estados Unidos) built
+Dialog AdminNetworkLocation for language Inglés (Estados Unidos) built
+Dialog AdminWelcome for language Inglés (Estados Unidos) built
+Dialog SplashBitmap for language Inglés (Estados Unidos) built
+Dialog InstallChangeFolder for language Inglés (Estados Unidos) built
+Dialog CancelSetup for language Inglés (Estados Unidos) built
+Dialog CustomSetup for language Inglés (Estados Unidos) built
+Dialog OutOfSpace for language Inglés (Estados Unidos) built
+Dialog SetupError for language Inglés (Estados Unidos) built
+Dialog SetupCompleteSuccess for language Inglés (Estados Unidos) built
+Dialog SetupCompleteError for language Inglés (Estados Unidos) built
+Dialog DiskSpaceRequirements for language Inglés (Estados Unidos) built
+Dialog FilesInUse for language Inglés (Estados Unidos) built
+Dialog SetupInitialization for language Inglés (Estados Unidos) built
+Dialog LicenseAgreement for language Inglés (Estados Unidos) built
+Dialog MaintenanceType for language Inglés (Estados Unidos) built
+Dialog MaintenanceWelcome for language Inglés (Estados Unidos) built
+Dialog SetupProgress for language Inglés (Estados Unidos) built
+Dialog CustomerInformation for language Inglés (Estados Unidos) built
+Dialog SetupResume for language Inglés (Estados Unidos) built
+Dialog SetupInterrupted for language Inglés (Estados Unidos) built
+Dialog ReadyToInstall for language Inglés (Estados Unidos) built
+Dialog ReadyToRemove for language Inglés (Estados Unidos) built
+Dialog InstallWelcome for language Inglés (Estados Unidos) built
+Dialog DestinationFolder for language Inglés (Estados Unidos) built
+Dialog CustomSetupTips for language Inglés (Estados Unidos) built
+Dialog ReadmeInformation for language Inglés (Estados Unidos) built
+Dialog SetupType for language Inglés (Estados Unidos) built
+Dialog DatabaseFolder for language Inglés (Estados Unidos) built
+Language Inglés (Estados Unidos) built
+Files processed
+Cabs
+Media
+SummaryStream table successfully built
+Setup.exe created
+Express\CD_ROM build completed with 0 errors, 0 warnings
+=================Logging Stopped at 10/07/2003 05:58:22 p.m. ==================

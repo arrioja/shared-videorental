@@ -1,0 +1,502 @@
+unit uconfiguracion;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  ExtCtrls, StdCtrls, Buttons, Mask, Numedit;
+
+type
+  Precio_Malo                = Class(Exception);
+
+  TConfiguracion = class(TForm)
+    OKBTN: TBitBtn;
+    CancelarBtn: TBitBtn;
+    Bevel1: TBevel;
+    GroupBox1: TGroupBox;
+    Label1: TLabel;
+    Label2: TLabel;
+    Label5: TLabel;
+    GroupBox2: TGroupBox;
+    GroupBox3: TGroupBox;
+    Label7: TLabel;
+    Edit1: TNumEdit;
+    Edit2: TNumEdit;
+    Edit3: TNumEdit;
+    Edit65: TNumEdit;
+    GroupBox4: TGroupBox;
+    GroupBox5: TGroupBox;
+    GroupBox6: TGroupBox;
+    GroupBox7: TGroupBox;
+    GroupBox8: TGroupBox;
+    GroupBox9: TGroupBox;
+    GroupBox10: TGroupBox;
+    Label26: TLabel;
+    Edit66: TNumEdit;
+    GroupBox11: TGroupBox;
+    GroupBox12: TGroupBox;
+    GroupBox13: TGroupBox;
+    GroupBox14: TGroupBox;
+    GroupBox15: TGroupBox;
+    GroupBox16: TGroupBox;
+    GroupBox17: TGroupBox;
+    GroupBox18: TGroupBox;
+    Edit4: TNumEdit;
+    Label51: TLabel;
+    Edit8: TNumEdit;
+    Edit7: TNumEdit;
+    Edit6: TNumEdit;
+    Edit5: TNumEdit;
+    Edit33: TNumEdit;
+    Edit34: TNumEdit;
+    Edit35: TNumEdit;
+    Edit36: TNumEdit;
+    Edit49: TNumEdit;
+    Edit50: TNumEdit;
+    Edit51: TNumEdit;
+    Edit52: TNumEdit;
+    Edit20: TNumEdit;
+    Edit19: TNumEdit;
+    Edit18: TNumEdit;
+    Edit17: TNumEdit;
+    Edit24: TNumEdit;
+    Edit23: TNumEdit;
+    Edit22: TNumEdit;
+    Edit21: TNumEdit;
+    Edit40: TNumEdit;
+    Edit39: TNumEdit;
+    Edit38: TNumEdit;
+    Edit37: TNumEdit;
+    Edit56: TNumEdit;
+    Edit55: TNumEdit;
+    Edit54: TNumEdit;
+    Edit53: TNumEdit;
+    Edit28: TNumEdit;
+    Edit27: TNumEdit;
+    Edit26: TNumEdit;
+    Edit25: TNumEdit;
+    Edit32: TNumEdit;
+    Edit31: TNumEdit;
+    Edit30: TNumEdit;
+    Edit29: TNumEdit;
+    Edit44: TNumEdit;
+    Edit43: TNumEdit;
+    Edit42: TNumEdit;
+    Edit41: TNumEdit;
+    Edit60: TNumEdit;
+    Edit59: TNumEdit;
+    Edit58: TNumEdit;
+    Edit57: TNumEdit;
+    Edit12: TNumEdit;
+    Edit11: TNumEdit;
+    Edit10: TNumEdit;
+    Edit9: TNumEdit;
+    Edit16: TNumEdit;
+    Edit15: TNumEdit;
+    Edit14: TNumEdit;
+    Edit13: TNumEdit;
+    Edit48: TNumEdit;
+    Edit47: TNumEdit;
+    Edit46: TNumEdit;
+    Edit45: TNumEdit;
+    Edit64: TNumEdit;
+    Edit63: TNumEdit;
+    Edit62: TNumEdit;
+    Edit61: TNumEdit;
+    Label4: TLabel;
+    Label6: TLabel;
+    Label8: TLabel;
+    Label10: TLabel;
+    Label11: TLabel;
+    Label12: TLabel;
+    Label14: TLabel;
+    Label15: TLabel;
+    Label16: TLabel;
+    Label18: TLabel;
+    Label19: TLabel;
+    Label20: TLabel;
+    Label22: TLabel;
+    Label23: TLabel;
+    Label24: TLabel;
+    Label27: TLabel;
+    Label28: TLabel;
+    Label29: TLabel;
+    Label31: TLabel;
+    Label32: TLabel;
+    Label33: TLabel;
+    Label35: TLabel;
+    Label36: TLabel;
+    Label37: TLabel;
+    Label39: TLabel;
+    Label40: TLabel;
+    Label41: TLabel;
+    Label43: TLabel;
+    Label44: TLabel;
+    Label45: TLabel;
+    Label47: TLabel;
+    Label48: TLabel;
+    Label49: TLabel;
+    Label52: TLabel;
+    Label53: TLabel;
+    Label54: TLabel;
+    Label56: TLabel;
+    Label57: TLabel;
+    Label58: TLabel;
+    Label60: TLabel;
+    Label61: TLabel;
+    Label62: TLabel;
+    Label64: TLabel;
+    Label65: TLabel;
+    Label66: TLabel;
+    Bevel2: TBevel;
+    Label3: TLabel;
+    Label9: TLabel;
+    Label13: TLabel;
+    Label17: TLabel;
+    Label21: TLabel;
+    Label25: TLabel;
+    Label30: TLabel;
+    Label34: TLabel;
+    Label38: TLabel;
+    Label42: TLabel;
+    Label46: TLabel;
+    Label50: TLabel;
+    Label55: TLabel;
+    Label59: TLabel;
+    Label63: TLabel;
+    procedure CancelarBtnClick(Sender: TObject);
+    procedure FormShow(Sender: TObject);
+    procedure OKBTNClick(Sender: TObject);
+    procedure Edit1KeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Configuracion: TConfiguracion;
+implementation
+
+uses Uprincipal;
+
+{$R *.DFM}
+
+procedure TConfiguracion.CancelarBtnClick(Sender: TObject);
+begin
+  close;
+end;
+
+procedure TConfiguracion.FormShow(Sender: TObject);
+begin
+  Reset(configarch);
+  readln(configarch,Precio_Alquiler_1_Dia);
+  readln(configarch,Precio_Alquiler_2_Dia);
+  readln(configarch,Precio_Alquiler_3_Dia);
+  readln(configarch,Precio_Alquiler_mas_Dia);
+  readln(configarch,Precio_Multa_1_Dia);
+  readln(configarch,Precio_Multa_2_Dia);
+  readln(configarch,Precio_Multa_3_Dia);
+  readln(configarch,Precio_Multa_mas_Dia);
+  readln(configarch,Precio_Alquiler_Doble_1_Dia);
+  readln(configarch,Precio_Alquiler_Doble_2_Dia);
+  readln(configarch,Precio_Alquiler_Doble_3_Dia);
+  readln(configarch,Precio_Alquiler_Doble_mas_Dia);
+  readln(configarch,Precio_Multa_Doble_1_Dia);
+  readln(configarch,Precio_Multa_Doble_2_Dia);
+  readln(configarch,Precio_Multa_Doble_3_Dia);
+  readln(configarch,Precio_Multa_Doble_mas_Dia);
+  readln(configarch,Precio_Alquiler_Sexo_1_Dia);
+  readln(configarch,Precio_Alquiler_Sexo_2_Dia);
+  readln(configarch,Precio_Alquiler_Sexo_3_Dia);
+  readln(configarch,Precio_Alquiler_Sexo_mas_Dia);
+  readln(configarch,Precio_Multa_Sexo_1_Dia);
+  readln(configarch,Precio_Multa_Sexo_2_Dia);
+  readln(configarch,Precio_Multa_Sexo_3_Dia);
+  readln(configarch,Precio_Multa_Sexo_mas_Dia);
+  readln(configarch,Precio_Alquiler_Musical_1_Dia);
+  readln(configarch,Precio_Alquiler_Musical_2_Dia);
+  readln(configarch,Precio_Alquiler_Musical_3_Dia);
+  readln(configarch,Precio_Alquiler_Musical_mas_Dia);
+  readln(configarch,Precio_Multa_Musical_1_Dia);
+  readln(configarch,Precio_Multa_Musical_2_Dia);
+  readln(configarch,Precio_Multa_Musical_3_Dia);
+  readln(configarch,Precio_Multa_Musical_mas_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_1_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_2_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_3_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_mas_Dia);
+  readln(configarch,Precio_Multa_Estreno_1_Dia);
+  readln(configarch,Precio_Multa_Estreno_2_Dia);
+  readln(configarch,Precio_Multa_Estreno_3_Dia);
+  readln(configarch,Precio_Multa_Estreno_mas_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_Doble_1_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_Doble_2_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_Doble_3_Dia);
+  readln(configarch,Precio_Alquiler_Estreno_Doble_mas_Dia);
+  readln(configarch,Precio_Multa_Estreno_Doble_1_Dia);
+  readln(configarch,Precio_Multa_Estreno_Doble_2_Dia);
+  readln(configarch,Precio_Multa_Estreno_Doble_3_Dia);
+  readln(configarch,Precio_Multa_Estreno_Doble_mas_Dia);
+  readln(configarch,Precio_Alquiler_DVD_1_Dia);
+  readln(configarch,Precio_Alquiler_DVD_2_Dia);
+  readln(configarch,Precio_Alquiler_DVD_3_Dia);
+  readln(configarch,Precio_Alquiler_DVD_Mas_Dia);
+  readln(configarch,Precio_Multa_DVD_1_Dia);
+  readln(configarch,Precio_Multa_DVD_2_Dia);
+  readln(configarch,Precio_Multa_DVD_3_Dia);
+  readln(configarch,Precio_Multa_DVD_mas_Dia);
+  readln(configarch,Precio_Alquiler_DVD_Estreno_1_Dia);
+  readln(configarch,Precio_Alquiler_DVD_Estreno_2_Dia);
+  readln(configarch,Precio_Alquiler_DVD_Estreno_3_Dia);
+  readln(configarch,Precio_Alquiler_DVD_Estreno_Mas_Dia);
+  readln(configarch,Precio_Multa_DVD_Estreno_1_Dia);
+  readln(configarch,Precio_Multa_DVD_Estreno_2_Dia);
+  readln(configarch,Precio_Multa_DVD_Estreno_3_Dia);
+  readln(configarch,Precio_Multa_DVD_Estreno_mas_Dia);
+  readln(configarch,Precio_de_Inscripcion);
+  readln(configarch,Precio_Deposito);
+  Closefile(configarch);
+
+  Edit1.text:=FormatFloat('#,##0.00',Precio_Alquiler_1_Dia);
+  Edit2.text:=FormatFloat('#,##0.00',Precio_Alquiler_2_Dia);
+  Edit3.text:=FormatFloat('#,##0.00',Precio_Alquiler_3_Dia);
+  Edit4.text:=FormatFloat('#,##0.00',Precio_Alquiler_mas_Dia);
+  Edit5.text:=FormatFloat('#,##0.00',Precio_Multa_1_Dia);
+  Edit6.text:=FormatFloat('#,##0.00',Precio_Multa_2_Dia);
+  Edit7.text:=FormatFloat('#,##0.00',Precio_Multa_3_Dia);
+  Edit8.text:=FormatFloat('#,##0.00',Precio_Multa_mas_Dia);
+  Edit9.text:=FormatFloat('#,##0.00',Precio_Alquiler_Doble_1_Dia);
+  Edit10.text:=FormatFloat('#,##0.00',Precio_Alquiler_Doble_2_Dia);
+  Edit11.text:=FormatFloat('#,##0.00',Precio_Alquiler_Doble_3_Dia);
+  Edit12.text:=FormatFloat('#,##0.00',Precio_Alquiler_Doble_mas_Dia);
+  Edit13.text:=FormatFloat('#,##0.00',Precio_Multa_Doble_1_Dia);
+  Edit14.text:=FormatFloat('#,##0.00',Precio_Multa_Doble_2_Dia);
+  Edit15.text:=FormatFloat('#,##0.00',Precio_Multa_Doble_3_Dia);
+  Edit16.text:=FormatFloat('#,##0.00',Precio_Multa_Doble_mas_Dia);
+  Edit17.text:=FormatFloat('#,##0.00',Precio_Alquiler_Sexo_1_Dia);
+  Edit18.text:=FormatFloat('#,##0.00',Precio_Alquiler_Sexo_2_Dia);
+  Edit19.text:=FormatFloat('#,##0.00',Precio_Alquiler_Sexo_3_Dia);
+  Edit20.text:=FormatFloat('#,##0.00',Precio_Alquiler_Sexo_mas_Dia);
+  Edit21.text:=FormatFloat('#,##0.00',Precio_Multa_Sexo_1_Dia);
+  Edit22.text:=FormatFloat('#,##0.00',Precio_Multa_Sexo_2_Dia);
+  Edit23.text:=FormatFloat('#,##0.00',Precio_Multa_Sexo_3_Dia);
+  Edit24.text:=FormatFloat('#,##0.00',Precio_Multa_Sexo_mas_Dia);
+  Edit25.text:=FormatFloat('#,##0.00',Precio_Alquiler_Musical_1_Dia);
+  Edit26.text:=FormatFloat('#,##0.00',Precio_Alquiler_Musical_2_Dia);
+  Edit27.text:=FormatFloat('#,##0.00',Precio_Alquiler_Musical_3_Dia);
+  Edit28.text:=FormatFloat('#,##0.00',Precio_Alquiler_Musical_mas_Dia);
+  Edit29.text:=FormatFloat('#,##0.00',Precio_Multa_Musical_1_Dia);
+  Edit30.text:=FormatFloat('#,##0.00',Precio_Multa_Musical_2_Dia);
+  Edit31.text:=FormatFloat('#,##0.00',Precio_Multa_Musical_3_Dia);
+  Edit32.text:=FormatFloat('#,##0.00',Precio_Multa_Musical_mas_Dia);
+  Edit33.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_1_Dia);
+  Edit34.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_2_Dia);
+  Edit35.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_3_Dia);
+  Edit36.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_mas_Dia);
+  Edit37.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_1_Dia);
+  Edit38.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_2_Dia);
+  Edit39.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_3_Dia);
+  Edit40.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_mas_Dia);
+  Edit41.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_Doble_1_Dia);
+  Edit42.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_Doble_2_Dia);
+  Edit43.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_Doble_3_Dia);
+  Edit44.text:=FormatFloat('#,##0.00',Precio_Alquiler_Estreno_Doble_mas_Dia);
+  Edit45.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_Doble_1_Dia);
+  Edit46.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_Doble_2_Dia);
+  Edit47.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_Doble_3_Dia);
+  Edit48.text:=FormatFloat('#,##0.00',Precio_Multa_Estreno_Doble_mas_Dia);
+  Edit49.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_1_Dia);
+  Edit50.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_2_Dia);
+  Edit51.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_3_Dia);
+  Edit52.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_Mas_Dia);
+  Edit53.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_1_Dia);
+  Edit54.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_2_Dia);
+  Edit55.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_3_Dia);
+  Edit56.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_mas_Dia);
+  Edit57.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_Estreno_1_Dia);
+  Edit58.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_Estreno_2_Dia);
+  Edit59.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_Estreno_3_Dia);
+  Edit60.text:=FormatFloat('#,##0.00',Precio_Alquiler_DVD_Estreno_Mas_Dia);
+  Edit61.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_Estreno_1_Dia);
+  Edit62.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_Estreno_2_Dia);
+  Edit63.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_Estreno_3_Dia);
+  Edit64.text:=FormatFloat('#,##0.00',Precio_Multa_DVD_Estreno_mas_Dia);
+  Edit65.text:=FormatFloat('#,##0.00',Precio_de_Inscripcion);
+  Edit66.text:=FormatFloat('#,##0.00',Precio_Deposito);
+
+  Edit1.Setfocus;
+end;
+
+procedure TConfiguracion.OKBTNClick(Sender: TObject);
+begin
+ Try
+   Begin
+     Try
+       Begin
+         Precio_Alquiler_1_Dia:=                    strtofloat(Edit1.text);
+         Precio_Alquiler_2_Dia:=                    strtofloat(Edit2.text);
+         Precio_Alquiler_3_Dia:=                    strtofloat(Edit3.text);
+         Precio_Alquiler_mas_Dia:=                  strtofloat(Edit4.text);
+         Precio_Multa_1_Dia:=                       strtofloat(Edit5.text);
+         Precio_Multa_2_Dia:=                       strtofloat(Edit6.text);
+         Precio_Multa_3_Dia:=                       strtofloat(Edit7.text);
+         Precio_Multa_mas_Dia:=                     strtofloat(Edit8.text);
+         Precio_Alquiler_Doble_1_Dia:=              strtofloat(Edit9.text);
+         Precio_Alquiler_Doble_2_Dia:=              strtofloat(Edit10.text);
+         Precio_Alquiler_Doble_3_Dia:=              strtofloat(Edit11.text);
+         Precio_Alquiler_Doble_mas_Dia:=            strtofloat(Edit12.text);
+         Precio_Multa_Doble_1_Dia:=                 strtofloat(Edit13.text);
+         Precio_Multa_Doble_2_Dia:=                 strtofloat(Edit14.text);
+         Precio_Multa_Doble_3_Dia:=                 strtofloat(Edit15.text);
+         Precio_Multa_Doble_mas_Dia:=               strtofloat(Edit16.text);
+         Precio_Alquiler_Sexo_1_Dia:=               strtofloat(Edit17.text);
+         Precio_Alquiler_Sexo_2_Dia:=               strtofloat(Edit18.text);
+         Precio_Alquiler_Sexo_3_Dia:=               strtofloat(Edit19.text);
+         Precio_Alquiler_Sexo_mas_Dia:=             strtofloat(Edit20.text);
+         Precio_Multa_Sexo_1_Dia:=                  strtofloat(Edit21.text);
+         Precio_Multa_Sexo_2_Dia:=                  strtofloat(Edit22.text);
+         Precio_Multa_Sexo_3_Dia:=                  strtofloat(Edit23.text);
+         Precio_Multa_Sexo_mas_Dia:=                strtofloat(Edit24.text);
+         Precio_Alquiler_Musical_1_Dia:=            strtofloat(Edit25.text);
+         Precio_Alquiler_Musical_2_Dia:=            strtofloat(Edit26.text);
+         Precio_Alquiler_Musical_3_Dia:=            strtofloat(Edit27.text);
+         Precio_Alquiler_Musical_mas_Dia:=          strtofloat(Edit28.text);
+         Precio_Multa_Musical_1_Dia:=               strtofloat(Edit29.text);
+         Precio_Multa_Musical_2_Dia:=               strtofloat(Edit30.text);
+         Precio_Multa_Musical_3_Dia:=               strtofloat(Edit31.text);
+         Precio_Multa_Musical_mas_Dia:=             strtofloat(Edit32.text);
+         Precio_Alquiler_Estreno_1_Dia:=            strtofloat(Edit33.text);
+         Precio_Alquiler_Estreno_2_Dia:=            strtofloat(Edit34.text);
+         Precio_Alquiler_Estreno_3_Dia:=            strtofloat(Edit35.text);
+         Precio_Alquiler_Estreno_mas_Dia:=          strtofloat(Edit36.text);
+         Precio_Multa_Estreno_1_Dia:=               strtofloat(Edit37.text);
+         Precio_Multa_Estreno_2_Dia:=               strtofloat(Edit38.text);
+         Precio_Multa_Estreno_3_Dia:=               strtofloat(Edit39.text);
+         Precio_Multa_Estreno_mas_Dia:=             strtofloat(Edit40.text);
+         Precio_Alquiler_Estreno_Doble_1_Dia:=      strtofloat(Edit41.text);
+         Precio_Alquiler_Estreno_Doble_2_Dia:=      strtofloat(Edit42.text);
+         Precio_Alquiler_Estreno_Doble_3_Dia:=      strtofloat(Edit43.text);
+         Precio_Alquiler_Estreno_Doble_mas_Dia:=    strtofloat(Edit44.text);
+         Precio_Multa_Estreno_Doble_1_Dia:=         strtofloat(Edit45.text);
+         Precio_Multa_Estreno_Doble_2_Dia:=         strtofloat(Edit46.text);
+         Precio_Multa_Estreno_Doble_3_Dia:=         strtofloat(Edit47.text);
+         Precio_Multa_Estreno_Doble_mas_Dia:=       strtofloat(Edit48.text);
+         Precio_Alquiler_DVD_1_Dia:=                strtofloat(Edit49.text);
+         Precio_Alquiler_DVD_2_Dia:=                strtofloat(Edit50.text);
+         Precio_Alquiler_DVD_3_Dia:=                strtofloat(Edit51.text);
+         Precio_Alquiler_DVD_Mas_Dia:=              strtofloat(Edit52.text);
+         Precio_Multa_DVD_1_Dia:=                   strtofloat(Edit53.text);
+         Precio_Multa_DVD_2_Dia:=                   strtofloat(Edit54.text);
+         Precio_Multa_DVD_3_Dia:=                   strtofloat(Edit55.text);
+         Precio_Multa_DVD_mas_Dia:=                 strtofloat(Edit56.text);
+         Precio_Alquiler_DVD_Estreno_1_Dia:=        strtofloat(Edit57.text);
+         Precio_Alquiler_DVD_Estreno_2_Dia:=        strtofloat(Edit58.text);
+         Precio_Alquiler_DVD_Estreno_3_Dia:=        strtofloat(Edit59.text);
+         Precio_Alquiler_DVD_Estreno_Mas_Dia:=      strtofloat(Edit60.text);
+         Precio_Multa_DVD_Estreno_1_Dia:=           strtofloat(Edit61.text);
+         Precio_Multa_DVD_Estreno_2_Dia:=           strtofloat(Edit62.text);
+         Precio_Multa_DVD_Estreno_3_Dia:=           strtofloat(Edit63.text);
+         Precio_Multa_DVD_Estreno_mas_Dia:=         strtofloat(Edit64.text);
+         Precio_de_Inscripcion:=                    strtofloat(Edit65.Text);
+         Precio_Deposito:=                          strtofloat(Edit66.text);
+       end
+     except
+       On EconvertError do
+          Begin
+            Raise Precio_Malo.Create(' ');
+          end;
+     end;
+
+     rewrite(configarch);
+     Writeln(configarch,Precio_Alquiler_1_Dia);
+     Writeln(configarch,Precio_Alquiler_2_Dia);
+     Writeln(configarch,Precio_Alquiler_3_Dia);
+     Writeln(configarch,Precio_Alquiler_mas_Dia);
+     Writeln(configarch,Precio_Multa_1_Dia);
+     Writeln(configarch,Precio_Multa_2_Dia);
+     Writeln(configarch,Precio_Multa_3_Dia);
+     Writeln(configarch,Precio_Multa_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_Doble_1_Dia);
+     Writeln(configarch,Precio_Alquiler_Doble_2_Dia);
+     Writeln(configarch,Precio_Alquiler_Doble_3_Dia);
+     Writeln(configarch,Precio_Alquiler_Doble_mas_Dia);
+     Writeln(configarch,Precio_Multa_Doble_1_Dia);
+     Writeln(configarch,Precio_Multa_Doble_2_Dia);
+     Writeln(configarch,Precio_Multa_Doble_3_Dia);
+     Writeln(configarch,Precio_Multa_Doble_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_Sexo_1_Dia);
+     Writeln(configarch,Precio_Alquiler_Sexo_2_Dia);
+     Writeln(configarch,Precio_Alquiler_Sexo_3_Dia);
+     Writeln(configarch,Precio_Alquiler_Sexo_mas_Dia);
+     Writeln(configarch,Precio_Multa_Sexo_1_Dia);
+     Writeln(configarch,Precio_Multa_Sexo_2_Dia);
+     Writeln(configarch,Precio_Multa_Sexo_3_Dia);
+     Writeln(configarch,Precio_Multa_Sexo_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_Musical_1_Dia);
+     Writeln(configarch,Precio_Alquiler_Musical_2_Dia);
+     Writeln(configarch,Precio_Alquiler_Musical_3_Dia);
+     Writeln(configarch,Precio_Alquiler_Musical_mas_Dia);
+     Writeln(configarch,Precio_Multa_Musical_1_Dia);
+     Writeln(configarch,Precio_Multa_Musical_2_Dia);
+     Writeln(configarch,Precio_Multa_Musical_3_Dia);
+     Writeln(configarch,Precio_Multa_Musical_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_1_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_2_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_3_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_mas_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_1_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_2_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_3_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_Doble_1_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_Doble_2_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_Doble_3_Dia);
+     Writeln(configarch,Precio_Alquiler_Estreno_Doble_mas_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_Doble_1_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_Doble_2_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_Doble_3_Dia);
+     Writeln(configarch,Precio_Multa_Estreno_Doble_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_1_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_2_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_3_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_Mas_Dia);
+     Writeln(configarch,Precio_Multa_DVD_1_Dia);
+     Writeln(configarch,Precio_Multa_DVD_2_Dia);
+     Writeln(configarch,Precio_Multa_DVD_3_Dia);
+     Writeln(configarch,Precio_Multa_DVD_mas_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_Estreno_1_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_Estreno_2_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_Estreno_3_Dia);
+     Writeln(configarch,Precio_Alquiler_DVD_Estreno_Mas_Dia);
+     Writeln(configarch,Precio_Multa_DVD_Estreno_1_Dia);
+     Writeln(configarch,Precio_Multa_DVD_Estreno_2_Dia);
+     Writeln(configarch,Precio_Multa_DVD_Estreno_3_Dia);
+     Writeln(configarch,Precio_Multa_DVD_Estreno_mas_Dia);
+     Writeln(configarch,Precio_de_Inscripcion);
+     Writeln(configarch,Precio_Deposito);
+     Closefile(configarch);
+     Close;
+   End
+ except
+   On Precio_Malo do
+     Begin
+       Showmessage('Alguno de los valores de los alquileres o de las multas '+
+                   'es incorrecto; asegúrese que sea un número válido, '+
+                   'que no contenga espacios en blanco entre las cifras, ni antes de las '+
+                   'mismas, por favor corrija el problema...');
+       Edit1.Setfocus;
+     end;
+ end;
+end;
+
+procedure TConfiguracion.Edit1KeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = #13 Then
+    Begin
+      Perform(WM_NEXTDLGCTL, 0, 0);
+      Key := #0;
+    end;
+end;
+
+end.

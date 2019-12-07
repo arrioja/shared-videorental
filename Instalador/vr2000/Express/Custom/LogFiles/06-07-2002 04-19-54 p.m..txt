@@ -1,0 +1,126 @@
+=================Logging started at 06/07/2002 04:19:54 p.m. ==================
+Binary table successfully built
+CustomAction table successfully built
+Property table successfully built
+Feature table successfully built
+FeatureComponents table successfully built
+Extracting COM data from 4 feature(s)
+Successfully scanned features for COM info
+IniFile table successfully built
+Building Directory table
+Directory table successfully built
+Registry table successfully built
+New Registry Entries (22) dynamically acquired for feature Always Install
+New Registry Entries (24) dynamically acquired for feature Always Install
+New Registry Entries (2) dynamically acquired for feature Always Install
+New Registry Entries (2) dynamically acquired for feature Always Install
+Building Feature table
+Component table successfully built
+Directory table successfully built
+AdminExecuteSequence table successfully built
+AdminUISequence table successfully built
+AdvtExecuteSequence table successfully built
+InstallExecuteSequence table successfully built
+InstallUISequence table successfully built
+Merging BaseRTL: C:\Program Files\Borland\Delphi6\MergeModules\BaseRTL.Msm
+Merging BaseVCL: C:\Program Files\Borland\Delphi6\MergeModules\BaseVCL.Msm
+Merging TeeChart: C:\Program Files\Borland\Delphi6\MergeModules\TeeChart.Msm
+Merging DatabaseRTL: C:\Program Files\Borland\Delphi6\MergeModules\DatabaseRTL.Msm
+Merging DataSnap: C:\Program Files\Borland\Delphi6\MergeModules\DataSnap.Msm
+Merging dbExpress: C:\Program Files\Borland\Delphi6\MergeModules\dbExpress.Msm
+Merging BaseClientDataSet: C:\Program Files\Borland\Delphi6\MergeModules\BaseClientDataSet.Msm
+Merging dbExpressClientDataSet: C:\Program Files\Borland\Delphi6\MergeModules\dbExpressClientDataSet.Msm
+Merging BDERTL: C:\Program Files\Borland\Delphi6\MergeModules\BDERTL.Msm
+Merging BDEClientDataSet: C:\Program Files\Borland\Delphi6\MergeModules\BDEClientDataSet.Msm
+Merging Microsoft Feature Category Manager Library: C:\Program Files\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\COMCAT.MSM
+Merging Microsoft OLE 2.40  for Windows NT(TM) and Windows 95(TM) Operating Systems: C:\Program Files\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\OLEAUT32.MSM
+Merging Microsoft Winsock Control DLL: C:\Program Files\InstallShield\InstallShield Express Borland Limited Edition\Modules\i386\MSWINSCK.MSM
+Merging BDE_ENT: C:\Program Files\Borland\Delphi6\MergeModules\bde_ent.msm
+Merging Jet351: C:\Program Files\InstallShield\InstallShield Express Borland Limited Edition\Objects\Jet351.Msm
+Shortcut table successfully built
+Class table successfully built
+AppId table successfully built
+New Class {7930C862-4D6A-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {8996B0A1-D7BE-101B-8650-00AA003A5593} dynamically acquired for feature Always Install
+New Class {A9CF1100-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1102-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1104-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1106-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF1108-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {A9CF110A-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {AC583F40-4F20-101B-8650-00AA003A4D8E} dynamically acquired for feature Always Install
+New Class {73E5ADF6-8937-11D1-AA74-00C04FA30E92} dynamically acquired for feature Always Install
+New Class {73E5ADF7-8937-11D1-AA74-00C04FA30E92} dynamically acquired for feature Always Install
+New Class {7B31B745-C02B-11D1-AAC0-00C04FA30E92} dynamically acquired for feature Always Install
+New Class {C20F7C3F-8919-11D1-AA74-00C04FA30E92} dynamically acquired for feature Always Install
+New Class {C20F7C42-8919-11D1-AA74-00C04FA30E92} dynamically acquired for feature Always Install
+New Class {FB99D710-18B9-11D0-A4CF-00A024C91936} dynamically acquired for feature Always Install
+New Class {FB99D700-18B9-11D0-A4CF-00A024C91936} dynamically acquired for feature Always Install
+ProgId table successfully built
+New ProgId SoftwareFX.ChartFX.20 dynamically acquired for feature Always Install
+New ProgId BdeMTSDispenser.BDEDispenser dynamically acquired for feature Always Install
+New ProgId BdeMTSDispenser.BDEDispenserDriver dynamically acquired for feature Always Install
+New ProgId BdeMTSDispenser.BDETransactionResAsync dynamically acquired for feature Always Install
+New ProgId BdeMTSDispenser.DispController dynamically acquired for feature Always Install
+New ProgId BdeMTSDispenser.ResourceManagerSink dynamically acquired for feature Always Install
+New ProgId Borland.Database_Engine.4 dynamically acquired for feature Always Install
+TypeLib table successfully built
+New TypeLib {8996B0A4-D7BE-101B-8650-00AA003A5593} dynamically acquired for feature Always Install
+New TypeLib {C20F7C3D-8919-11D1-AA74-00C04FA30E92} dynamically acquired for feature Always Install
+Extension table successfully built
+Verb table successfully built
+MIME table successfully built
+PublishComponent table successfully built
+Directory table successfully built
+LaunchCondition table successfully built
+ServiceInstall table successfully built
+ServiceControl table successfully built
+ODBCDriver table successfully built
+ODBCAttribute table successfully built
+ODBCDataSource table successfully built
+ODBCSourceAttribute table successfully built
+ODBCTranslator table successfully built
+TextStyle table successfully built
+ActionText table successfully built
+Error table successfully built
+UIText table successfully built
+Icon table successfully built
+InstallShield table successfully built
+Dialog AdminChangeFolder for language English (United States) built
+Dialog AdminNetworkLocation for language English (United States) built
+Dialog AdminWelcome for language English (United States) built
+Dialog SplashBitmap for language English (United States) built
+Dialog InstallChangeFolder for language English (United States) built
+Dialog CancelSetup for language English (United States) built
+Dialog CustomSetup for language English (United States) built
+Dialog OutOfSpace for language English (United States) built
+Dialog SetupError for language English (United States) built
+Dialog SetupCompleteSuccess for language English (United States) built
+Dialog SetupCompleteError for language English (United States) built
+Dialog DiskSpaceRequirements for language English (United States) built
+Dialog FilesInUse for language English (United States) built
+Dialog SetupInitialization for language English (United States) built
+Dialog LicenseAgreement for language English (United States) built
+Dialog MaintenanceType for language English (United States) built
+Dialog MaintenanceWelcome for language English (United States) built
+Dialog SetupProgress for language English (United States) built
+Dialog CustomerInformation for language English (United States) built
+Dialog SetupResume for language English (United States) built
+Dialog SetupInterrupted for language English (United States) built
+Dialog ReadyToInstall for language English (United States) built
+Dialog ReadyToRemove for language English (United States) built
+Dialog InstallWelcome for language English (United States) built
+Dialog DestinationFolder for language English (United States) built
+Dialog CustomSetupTips for language English (United States) built
+Dialog ReadmeInformation for language English (United States) built
+Dialog SetupType for language English (United States) built
+Dialog DatabaseFolder for language English (United States) built
+Language English (United States) built
+	** Error -1015: Not enough space to fit setup files on Disk 1.
+Files processed
+Cabs
+Media
+SummaryStream table successfully built
+Setup.exe created
+Express\Custom build completed with 1 errors, 0 warnings
+=================Logging Stopped at 06/07/2002 04:22:08 p.m. ==================

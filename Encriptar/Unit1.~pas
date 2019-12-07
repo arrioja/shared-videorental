@@ -1,0 +1,53 @@
+unit Unit1;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  StdCtrls;
+
+type
+  TForm1 = class(TForm)
+    Button1: TButton;
+    Edit1: TEdit;
+    Edit2: TEdit;
+  Function Encripta(X:String): String;
+    procedure Button1Click(Sender: TObject);
+  private
+    { Private declarations }
+  public
+    { Public declarations }
+  end;
+
+var
+  Form1: TForm1;
+
+implementation
+
+{$R *.DFM}
+Function TForm1.Encripta(X:String): String;
+var
+  I : Integer;
+  St: ^String;
+begin
+  New(ST);
+  ST^:=X;
+  X:='';
+  For I:=1 to Length(ST^) do
+     Begin
+       X:=X+ST^[(Length(ST^)-I)+1];
+     end;
+  Dispose(ST);
+  for i := 1 to Length(X) do
+     X[i] := char(byte(X[i]) xor $AA);
+  Encripta:=X;
+end;
+
+
+procedure TForm1.Button1Click(Sender: TObject);
+begin
+  Edit2.Text:=Encripta(Edit1.Text);
+end;
+
+end.
+ 

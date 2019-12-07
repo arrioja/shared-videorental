@@ -1,0 +1,35 @@
+
+VIDEO RENTAL 2000 ®
+CONTRATO DE LICENCIA PARA EL USUARIO FINAL
+
+IMPORTANTE. LEA DETENIDAMENTE: este Contrato de Licencia para Usuario Final ("CLUF") constituye un acuerdo legal entre usted (sea persona natural o persona jurídica) y Pedro Enrique Arrioja Marcano C.I.- V.13.729.622, en adelante (PEAM), respecto al producto software indicado arriba, que incluye software y puede incluir medios asociados, materiales impresos y documentación "en pantalla" o electrónica ("PRODUCTO SOFTWARE"). El PRODUCTO SOFTWARE incluye también todas las actualizaciones y suplementos del PRODUCTO SOFTWARE original que PEAM le proporcione. Todo software proporcionado junto con el PRODUCTO SOFTWARE que esté asociado con un contrato independiente de licencia para el usuario final se le concede en licencia bajo los términos de ese contrato de licencia. Al instalar, copiar, descargar, tener acceso o de otra manera utilizar el PRODUCTO SOFTWARE, usted acepta quedar obligado por los términos de este CLUF. Si no acepta los términos de este CLUF, no instale ni use el PRODUCTO SOFTWARE; por el contrario, devuélvalo al lugar donde lo adquirió a los efectos de obtener un reembolso total del importe pagado.
+
+LICENCIA DEL PRODUCTO SOFTWARE
+El PRODUCTO SOFTWARE está protegido por leyes y por tratados internacionales en materia de derechos de autor, así como por otras leyes y tratados sobre propiedad intelectual. El PRODUCTO SOFTWARE se concede en licencia y no se vende. 
+
+1. OTORGAMIENTO DE LICENCIA. Este CLUF le otorga los siguientes derechos:
+* Software de sistema. Puede instalar y utilizar una copia del PRODUCTO SOFTWARE en un equipo o PC, incluida una estación de trabajo, un terminal u otro dispositivo digital ("EQUIPO"). 
+
+* Almacenamiento y uso en red. Podrá también almacenar o instalar una copia del PRODUCTO SOFTWARE en un dispositivo de almacenamiento, tal como un servidor de red, que se use sólo para instalar o ejecutar el PRODUCTO SOFTWARE en sus otros EQUIPOS dentro de una red interna.
+
+* Paquete de Licencia. Si este paquete es un Paquete de licencia de PEAM, puede instalar y utilizar copias adicionales de la parte de software del PRODUCTO SOFTWARE hasta el número de copias antes especificado como "Copias con licencia".
+
+* Limitaciones en materia de ingeniería inversa, descompilación y desensamblaje. Usted no podrá utilizar técnicas de ingeniería inversa, descompilar ni desensamblar el PRODUCTO SOFTWARE, excepto y únicamente en la medida en que dicha actividad esté expresamente permitida por la legislación aplicable, a pesar de la presente limitación.
+
+* Separación de componentes. El PRODUCTO SOFTWARE se concede con licencia como producto único. Sus partes componentes no pueden separarse para su utilización en más de un equipo o PC.
+
+* Alquiler. Usted no podrá alquilar ni arrendar el PRODUCTO SOFTWARE.
+
+* Marcas comerciales. Este CLUF no le concede ningún derecho en conexión con ninguna marca comercial o marca de servicio de PEAM.
+
+* Servicios de soporte técnico. PEAM podrá prestar servicios de soporte técnico para el PRODUCTO SOFTWARE ("Servicios de Soporte Técnico").  Todo código de software complementario que le sea proporcionado como parte de los Servicios de Soporte Técnico será considerado parte del PRODUCTO SOFTWARE y estará sujeto a los términos y condiciones de este CLUF.
+
+* Transferencia del software. El usuario inicial del PRODUCTO SOFTWARE puede hacer una sola vez una transferencia definitiva de este CLUF y PRODUCTO SOFTWARE sólo directamente a un usuario final. Esta transferencia debe incluir todo el PRODUCTO SOFTWARE [incluyendo todas las partes componentes, los medios y los materiales impresos, cualquier actualización, este CLUF y, en su caso, el Certificado de Autenticidad. Dicha transferencia no puede ser mediante consignación ni ninguna otra transferencia indirecta. El receptor de esa única transferencia debe aceptar cumplir los términos de este CLUF, incluida la obligación de no transferir adicionalmente este CLUF y PRODUCTO SOFTWARE.
+
+* Terminación del CLUF. Sin perjuicio de cualquier otro derecho, PEAM puede terminar este CLUF si usted no cumple los términos y condiciones del mismo. En dicho caso, usted deberá destruir todas las copias del PRODUCTO SOFTWARE y todas las partes componentes.
+
+4. DERECHOS DE AUTOR. La titularidad y derechos de propiedad intelectual con respecto al PRODUCTO SOFTWARE (incluyendo, pero sin limitarse a, imágenes, fotografías, animaciones, vídeo, audio, música, texto y "applets" o subprogramas que pudieran estar incorporados al PRODUCTO SOFTWARE), los materiales impresos que lo acompañan y toda copia del PRODUCTO SOFTWARE son propiedad de PEAM o de sus proveedores. La titularidad y los derechos de propiedad intelectual correspondientes a los contenidos a los que se puede tener acceso mediante la utilización del PRODUCTO SOFTWARE son propiedad del respectivo propietario de los contenidos y puede estar protegido por las leyes y tratados sobre derechos de autor y propiedad intelectual aplicables. Este CLUF no le concede ningún derecho a utilizar dichos contenidos. PEAM se reserva todos los derechos que no se conceden expresamente.
+
+5. SOFTWARE EN MEDIO DUAL. Es posible que usted reciba el PRODUCTO SOFTWARE en más de un medio. Independientemente del tipo o tamaño del medio que reciba, usted sólo podrá usar el medio que sea apropiado para su equipo o PC único. No podrá usar ni instalar el otro medio en otro equipo o PC. No podrá prestar, alquilar, arrendar, ceder o de otra manera transferir el otro medio a otro usuario, excepto como parte de la transferencia permanente (anteriormente prevista) del PRODUCTO SOFTWARE.
+
+6. COPIA DE SEGURIDAD Después de la instalación de una copia del PRODUCTO SOFTWARE de acuerdo con este CLUF, puede conservar el medio original en el que PEAM le proporcionó el PRODUCTO SOFTWARE sólo para copia de seguridad o respaldo, o con fines de archivo. Si el medio original es necesario para utilizar el PRODUCTO SOFTWARE en el EQUIPO, puede hacer una única copia del PRODUCTO SOFTWARE sólo para copia de seguridad o respaldo, o con fines de archivo. Excepto en lo dispuesto expresamente en el presente CLUF, no puede hacer de ninguna otra manera copias del PRODUCTO SOFTWARE ni de los materiales impresos que acompañan al PRODUCTO SOFTWARE.

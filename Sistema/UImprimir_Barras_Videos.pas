@@ -1,0 +1,955 @@
+unit UImprimir_Barras_Videos;
+
+interface
+
+uses
+  Windows, Messages, SysUtils, Classes, Graphics, Controls, Forms, Dialogs,
+  ExtCtrls, Buttons, StdCtrls, Mask, Barcd4, Grids;
+
+type
+  TImprimir_Barras_Videos = class(TForm)
+    SpeedButton2: TSpeedButton;
+    PrnBtn: TSpeedButton;
+    SpeedButton1: TSpeedButton;
+    Bevel5: TBevel;
+    Bevel1: TBevel;
+    Label11: TLabel;
+    Barras: TPrintBarcode;
+    Label1: TLabel;
+    Bevel3: TBevel;
+    Listado: TStringGrid;
+    Bevel2: TBevel;
+    SpeedButton4: TSpeedButton;
+    Codigo: TMaskEdit;
+    procedure FormShow(Sender: TObject);
+    procedure SpeedButton1Click(Sender: TObject);
+    procedure SpeedButton4Click(Sender: TObject);
+    procedure PrnBtnClick(Sender: TObject);
+    Procedure Procesar;
+    procedure SpeedButton2Click(Sender: TObject);
+    procedure CodigoChange(Sender: TObject);
+    procedure CodigoKeyPress(Sender: TObject; var Key: Char);
+  private
+    { Private declarations }
+  public
+    Cuenta_Personas:Byte;
+    { Public declarations }
+  end;
+
+var
+  Imprimir_Barras_Videos: TImprimir_Barras_Videos;
+
+implementation
+
+uses Modulo_de_Datos, UImprimir_Barras_Videos_Prn,
+  UImprimir_Barras_Clientes;
+
+{$R *.DFM}
+
+procedure TImprimir_Barras_Videos.FormShow(Sender: TObject);
+begin
+  Listado.Cells[0,0]:='  Código';
+  Listado.Cells[1,0]:='                       Título del Video';
+  Listado.Cells[2,0]:=' Ubicación';
+  Listado.Cells[3,0]:='   Barra';
+  Cuenta_Personas:=0;
+  CODIGO.SetFocus;
+end;
+
+procedure TImprimir_Barras_Videos.SpeedButton1Click(Sender: TObject);
+begin
+  Close;
+end;
+
+procedure TImprimir_Barras_Videos.SpeedButton4Click(Sender: TObject);
+var
+  Y:Byte;
+begin
+  For Y:=1 to 36 do
+    Begin
+      Listado.Cells[0,Y]:='';
+      Listado.Cells[1,Y]:='';
+    end;
+  PrnBtn.Enabled:=False;
+  Cuenta_Personas:=0;
+end;
+
+Procedure TImprimir_Barras_Videos.Procesar;
+var
+  Hay_Cupo,Encontrada:Boolean;
+  Y:Byte;
+begin
+      Encontrada:=False;
+      Hay_Cupo:=False;
+      Y:=1;
+      While ((Y <= 36) And (Encontrada = False)) do
+        Begin
+          If Listado.Cells[0,Y]=Codigo.Text Then
+            Begin
+              Encontrada:=True;
+            end;
+          Y:=y+1;
+        end;
+      If Encontrada = True Then
+        Begin
+          For Y:=Y-1 to 36 do
+            Begin
+              If Y = 36 Then
+                Begin
+                  Listado.Cells[0,Y]:='';
+                  Listado.Cells[1,Y]:='';
+                  Listado.Cells[2,Y]:='';
+                  Listado.Cells[3,Y]:='';
+                  Label1.Caption:='';
+                  Cuenta_Personas:=Cuenta_Personas-1;
+                  If Cuenta_Personas <= 0 Then PrnBtn.Enabled:=False;
+                  Codigo.Text:='';
+                end
+              else
+                Begin
+                  Listado.Cells[0,Y]:=Listado.Cells[0,Y+1];
+                  Listado.Cells[1,Y]:=Listado.Cells[1,Y+1];
+                  Listado.Cells[2,Y]:=Listado.Cells[2,Y+1];
+                  Listado.Cells[3,Y]:=Listado.Cells[3,Y+1];
+                end;
+            end;
+        end
+      else
+        Begin
+          //Parte para la inclusión de los datos
+          Datos.Videos.indexname:='';
+          Datos.Videos.setkey;
+          Datos.Videos.fieldbyname('Codigo_Video').asstring:=Codigo.text;
+          if (Datos.Videos.gotokey = False) then
+            begin
+              Label1.Caption:='';
+              messagedlg('El Código que ha introducido '
+                        +'no se encuentra en nuestros registros, debe introducir '
+                        +'un número que se encuentre registrado.',mterror,[mbok],0);
+              Codigo.Text:='';
+              Codigo.Setfocus;
+            end
+          Else
+            Begin
+              Label1.Caption:=Datos.Videos.fieldbyname('Titulo_Video').Asstring;
+              Y:=1;
+              While ((Y <= 36) And (Hay_cupo = False)) do
+                Begin
+                  If Listado.Cells[0,Y]='' Then
+                    Begin
+                      Hay_Cupo:=True;
+                      Listado.Cells[0,Y]:=Datos.Videos.fieldbyname('Codigo_Video').Asstring;
+                      Listado.Cells[1,Y]:=Label1.Caption;
+                      Listado.Cells[2,Y]:=Datos.Videos.fieldbyname('Anaquel').Asstring+' - '+
+                                          Datos.Videos.fieldbyname('Linea').Asstring+' - '+
+                                          Datos.Videos.fieldbyname('Posicion').Asstring;
+                      Listado.Cells[3,Y]:=Datos.Videos.fieldbyname('Codigo_Video').Asstring[1]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[2]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[3]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[4]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[6]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[7]+
+                                          Datos.Videos.fieldbyname('Codigo_Video').Asstring[8];
+                      Cuenta_Personas:=Cuenta_Personas+1;
+                      Codigo.Text:='';
+                      Label1.Caption:='';
+                      Codigo.Setfocus;
+                      PrnBtn.Enabled:=True;
+                    end;
+                  Y:=y+1;
+                end;
+              If Hay_cupo = False Then
+                Begin
+                  Showmessage('Esta lista sólo permite 10 películas y ya no hay cupo para más, '+
+                              'deberá eliminar una película para poder incluir a otra...');
+                end;
+            end;
+        end;
+end;
+
+
+procedure TImprimir_Barras_Videos.PrnBtnClick(Sender: TObject);
+begin
+  Try
+    Begin
+      Imprimir_Barras_Videos_Prn:=TImprimir_Barras_Videos_Prn.Create(Self);
+      Case Imprimir_Barras_Videos.Cuenta_Personas of
+        1:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_2.Free;Imprimir_Barras_Videos_Prn.Codigo_3.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_4.Free;Imprimir_Barras_Videos_Prn.Codigo_5.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_6.Free;Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_2.Free;Imprimir_Barras_Videos_Prn.Barra_3.Free;
+            Imprimir_Barras_Videos_Prn.Barra_4.Free;Imprimir_Barras_Videos_Prn.Barra_5.Free;
+            Imprimir_Barras_Videos_Prn.Barra_6.Free;Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        2:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_3.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_4.Free;Imprimir_Barras_Videos_Prn.Codigo_5.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_6.Free;Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_3.Free;
+            Imprimir_Barras_Videos_Prn.Barra_4.Free;Imprimir_Barras_Videos_Prn.Barra_5.Free;
+            Imprimir_Barras_Videos_Prn.Barra_6.Free;Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        3:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_4.Free;Imprimir_Barras_Videos_Prn.Codigo_5.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_6.Free;Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_4.Free;Imprimir_Barras_Videos_Prn.Barra_5.Free;
+            Imprimir_Barras_Videos_Prn.Barra_6.Free;Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        4:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_5.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_6.Free;Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_5.Free;
+            Imprimir_Barras_Videos_Prn.Barra_6.Free;Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        5:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_6.Free;Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_6.Free;Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        6:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_7.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_7.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        7:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_8.Free;Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_8.Free;Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        8:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_9.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_9.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+        9:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_10.Free;Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_10.Free;Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       10:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_11.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_11.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       11:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_12.Free;Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_12.Free;Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       12:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_13.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_13.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       13:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_14.Free;Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_14.Free;Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       14:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_15.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_15.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       15:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_16.Free;Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_16.Free;Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       16:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_17.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_17.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       17:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_18.Free;Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_18.Free;Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       18:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_19.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_19.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       19:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_20.Free;Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_20.Free;Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       20:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_21.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_21.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       21:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_22.Free;Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_22.Free;Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       22:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_23.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_23.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       23:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_24.Free;Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_24.Free;Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       24:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_25.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_25.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       25:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_26.Free;Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_26.Free;Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       26:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_27.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_27.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       27:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_28.Free;Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_28.Free;Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       28:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_29.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_29.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       29:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_30.Free;Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_30.Free;Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       30:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_31.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_31.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       31:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_32.Free;Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_32.Free;Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       32:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_33.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_33.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       33:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_34.Free;Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_34.Free;Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       34:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_35.Free;
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_35.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+       35:Begin
+            Imprimir_Barras_Videos_Prn.Codigo_36.Free;
+            Imprimir_Barras_Videos_Prn.Barra_36.Free;
+          end;
+      end;
+      Imprimir_Barras_Videos_Prn.Reporte.Preview;
+    end
+  finally
+    Begin
+      Imprimir_Barras_Videos_Prn.Free;
+      Imprimir_Barras_Videos_Prn:=Nil;
+    end;
+  end;
+end;
+
+procedure TImprimir_Barras_Videos.SpeedButton2Click(Sender: TObject);
+begin
+  Procesar;
+end;
+
+procedure TImprimir_Barras_Videos.CodigoChange(Sender: TObject);
+begin
+  Barras.Text:=Codigo.Text;
+end;
+
+procedure TImprimir_Barras_Videos.CodigoKeyPress(Sender: TObject; var Key: Char);
+begin
+  If Key = #13 Then Procesar;
+end;
+
+end.

@@ -1,0 +1,10 @@
+**********----------   I M P O R T A N T E   ----------**********
+
+     En este directorio se guarda información relevante para el 
+sistema una vez que el mismo se encuentra en ejecución, por favor, 
+NO elimine este directorio.
+
+     Mientras que el sistemas no se encuentre en ejecución, no 
+habrá nada en este directorio excepto este archivo, pero una vez 
+que el mismo esté corriendo, habrán varios archivos necesarios para 
+el buen funcionamiento del sistema de Videos.

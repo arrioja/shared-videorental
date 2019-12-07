@@ -1,0 +1,149 @@
+================= Logging started at 7/14/2004 01:35:10 ==================
+Created release folders
+AdminExecuteSequence table successfully built
+AdminUISequence table successfully built
+AdvtExecuteSequence table successfully built
+AdvtUISequence table successfully built
+InstallExecuteSequence table successfully built
+InstallUISequence table successfully built
+Directory table successfully built
+Feature table successfully built
+FeatureComponents table successfully built
+Component table successfully built
+Loading File table
+Building File table
+Merging modules...
+	** Error: -4075: File not found. An error occurred merging Module 'TeeChart.537E5335_661C_49EF_A14B_2E56683487C7:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'BaseRTL.30CDC119_8815_47B9_8F2B_C959BE8FA3DF:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'BaseVCL.F54D15A1_61C2_45D1_8695_73EEFFA7AE0C:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'DataSnap.00A770BE_D8F6_4181_A8C8_8E84516D4BEC:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'DatabaseRTL.5D1BC14F_9CD0_4F2D_A5B1_7254654F57C4:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'dbExpress.7EEFB462_47E7_4C82_B941_146D305970F7:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'BaseClientDataSet.E9657792_B0F0_423D_AEE5_8CFFFAAD2E82:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'dbExpressClientDataSet.005D5BAB_59C0_422C_948D_EF229761E0FA:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'BDEClientDataSet.3D56DFC1_E0A0_4A4F_B2CD_D3F3E4BD563E:0' for Feature 'AlwaysInstall'.
+	** Error: -4075: File not found. An error occurred merging Module 'BDERTL.EE549E7B_04D3_4973_B154_9DA0B29464E3:0' for Feature 'AlwaysInstall'.
+Merging BDE_ENT: C:\Archivos de programa\Borland\Delphi7\MergeModules\BDE_ENT.Msm
+Merging Microsoft Component Category Manager Library: C:\Archivos de programa\InstallShield\Express\Modules\i386\COMCAT.MSM
+Merging Microsoft Winsock Control DLL: C:\Archivos de programa\InstallShield\Express\Modules\i386\MSWINSCK.MSM
+Merging Microsoft OLE 2.40  for Windows NT(TM) and Windows 95(TM) Operating Systems: C:\Archivos de programa\InstallShield\Express\Modules\i386\OLEAUT32.MSM
+File table successfully built
+Building MsiFileHash table
+	** Error: -6271: File C:\Archivos de programa\Archivos comunes\Borland Shared\Database Desktop\dbddesk.GID not found. An error occurred building the MsiFileHash table record for this file. Verify that the file exists in the specified location.
+MsiFileHash table successfully built
+Class table successfully built
+Extension table successfully built
+ODBCDataSource table successfully built
+ODBCDriver table successfully built
+ActionText table successfully built
+Condition table successfully built
+AppId table successfully built
+AppSearch table successfully built
+Property table successfully built
+BBControl table successfully built
+Billboard table successfully built
+Binary table successfully built
+BindImage table successfully built
+CCPSearch table successfully built
+CompLocator table successfully built
+Complus table successfully built
+ControlCondition table successfully built
+ControlEvent table successfully built
+CreateFolder table successfully built
+CustomAction table successfully built
+DrLocator table successfully built
+DuplicateFile table successfully built
+Environment table successfully built
+Error table successfully built
+EventMapping table successfully built
+FileSFPCatalog table successfully built
+Font table successfully built
+IniFile table successfully built
+IniLocator table successfully built
+ISObjectProperty table successfully built
+IsolatedComponent table successfully built
+LaunchCondition table successfully built
+LockPermissions table successfully built
+MIME table successfully built
+MoveFile table successfully built
+MsiAssembly table successfully built
+MsiAssemblyName table successfully built
+MsiDigitalCertificate table successfully built
+MsiDigitalSignature table successfully built
+ODBCAttribute table successfully built
+ODBCSourceAttribute table successfully built
+ODBCTranslator table successfully built
+PatchPackage table successfully built
+ProgId table successfully built
+PublishComponent table successfully built
+Registry table successfully built
+RegLocator table successfully built
+RemoveFile table successfully built
+RemoveIniFile table successfully built
+RemoveRegistry table successfully built
+ReserveCost table successfully built
+SelfReg table successfully built
+ServiceControl table successfully built
+ServiceInstall table successfully built
+SFPCatalog table successfully built
+Shortcut table successfully built
+Signature table successfully built
+TextStyle table successfully built
+TypeLib table successfully built
+UIText table successfully built
+Upgrade table successfully built
+Verb table successfully built
+_Validation table successfully built
+Searching project for extract-at-build components...
+Extracting COM data from 1 component(s)
+New ProgId SoftwareFX.ChartFX.20 dynamically acquired for component cfx32.ocx
+New Class {7930C862-4D6A-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {8996B0A1-D7BE-101B-8650-00AA003A5593} dynamically acquired for component cfx32.ocx
+New Class {A9CF1100-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {A9CF1102-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {A9CF1104-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {A9CF1106-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {A9CF1108-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {A9CF110A-4F9C-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New Class {AC583F40-4F20-101B-8650-00AA003A4D8E} dynamically acquired for component cfx32.ocx
+New TypeLib {8996B0A4-D7BE-101B-8650-00AA003A5593} dynamically acquired for component cfx32.ocx
+New Registry Entries (16) dynamically acquired for component cfx32.ocx
+Dialog AdminChangeFolder for language English (United States) built
+Dialog AdminNetworkLocation for language English (United States) built
+Dialog AdminWelcome for language English (United States) built
+Dialog CancelSetup for language English (United States) built
+Dialog CustomSetup for language English (United States) built
+Dialog CustomSetupTips for language English (United States) built
+Dialog CustomerInformation for language English (United States) built
+Dialog DatabaseFolder for language English (United States) built
+Dialog DestinationFolder for language English (United States) built
+Dialog DiskSpaceRequirements for language English (United States) built
+Dialog FilesInUse for language English (United States) built
+Dialog InstallChangeFolder for language English (United States) built
+Dialog InstallWelcome for language English (United States) built
+Dialog LicenseAgreement for language English (United States) built
+Dialog MaintenanceType for language English (United States) built
+Dialog MaintenanceWelcome for language English (United States) built
+Dialog OutOfSpace for language English (United States) built
+Dialog ReadmeInformation for language English (United States) built
+Dialog ReadyToInstall for language English (United States) built
+Dialog ReadyToRemove for language English (United States) built
+Dialog SetupCompleteError for language English (United States) built
+Dialog SetupCompleteSuccess for language English (United States) built
+Dialog SetupError for language English (United States) built
+Dialog SetupInitialization for language English (United States) built
+Dialog SetupInterrupted for language English (United States) built
+Dialog SetupProgress for language English (United States) built
+Dialog SetupResume for language English (United States) built
+Dialog SetupType for language English (United States) built
+Dialog SplashBitmap for language English (United States) built
+Resolving strings...
+Language English (United States) built
+Building CAB files...
+	** Error: -1501: Could not compress "C:\Archivos de programa\Archivos comunes\Borland Shared\Database Desktop\dbddesk.GID" into "C:\VR\Instalador\VR2000\Express\CD_ROM\DiskImages\DISK1\Data1.cab"
+Data1.cab built
+Files built
+Media table successfully built
+Setup.exe created
+Express\CD_ROM build completed with 12 errors, 0 warnings
+================= Logging stopped at 7/14/2004 01:36:05 ==================
